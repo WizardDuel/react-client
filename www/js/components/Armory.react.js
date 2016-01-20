@@ -7,12 +7,16 @@ var Armory = React.createClass({
   render: function() {
     return (
       <div className="col-md-12">
-        <div>
+        <div className="row">
           <h2>Welcome to Wizard Duel!</h2>
-          <button className="btn btn-danger" onClick={this.beginBattle}>Ready to Duel!</button>
         </div>
-        <div>
+        <div className="row">
           <SpellSelect spellsList={Spells} />
+        </div>
+        <div className="row">
+          <div className="col-md-3 col-md-offset-6">
+            <button className="btn btn-danger pull-right" onClick={this.beginBattle}>Ready to Duel!</button>
+          </div>
         </div>
       </div>
     )

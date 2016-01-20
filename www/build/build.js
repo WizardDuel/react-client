@@ -19723,22 +19723,30 @@
 	      { className: 'col-md-12' },
 	      React.createElement(
 	        'div',
-	        null,
+	        { className: 'row' },
 	        React.createElement(
 	          'h2',
 	          null,
 	          'Welcome to Wizard Duel!'
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'btn btn-danger', onClick: this.beginBattle },
-	          'Ready to Duel!'
 	        )
 	      ),
 	      React.createElement(
 	        'div',
-	        null,
+	        { className: 'row' },
 	        React.createElement(SpellSelect, { spellsList: Spells })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-3 col-md-offset-6' },
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-danger pull-right', onClick: this.beginBattle },
+	            'Ready to Duel!'
+	          )
+	        )
 	      )
 	    );
 	  },
