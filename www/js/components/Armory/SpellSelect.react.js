@@ -1,15 +1,18 @@
 var React = require('react');
 var SpellList = require('./SpellList.react');
+var _ = require('lodash')
 
 var SpellSelect = React.createClass({
 
-  render: function(){
-    var lists = [];
-    var spellsList = this.props.spellsList;
-    for (var type in spellsList) {
-      lists.push( <SpellList spells={spellsList[type]} category={type} key={type}/> )
-    }
 
+  render: function(){
+
+    var spells = _.groupBy(this.props.spellsList['special'],'type')
+    console.log(spells)
+    var lists = [];
+    for (var type in spells) {
+      lists.push( <SpellList spells={spells[type]} category={type} key={type}/> )
+    }
 
     return (
       <div>
