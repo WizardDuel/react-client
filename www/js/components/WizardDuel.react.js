@@ -1,5 +1,5 @@
 var React = require('react');
-var WaitingRoom = require('./WaitingRoom.react');
+var Armory = require('./Armory.react');
 var BattleRoom = require('./BattleRoom.react');
 var KillRoom = require('./KillRoom.react');
 var io = require('socket.io-client');
@@ -17,7 +17,7 @@ var WizardDuel = React.createClass({
     var room;
     switch(this.state.gameStatus) {
       case 'Setup':
-        room = <WaitingRoom enterBattle={this.enterBattle}/>;
+        room = <Armory enterBattle={this.enterBattle}/>;
         break;
       case 'Battle':
         room = <BattleRoom endBattle={this.endBattle} />
