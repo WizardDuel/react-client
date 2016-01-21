@@ -1,4 +1,5 @@
 var React = require('react');
+var _ = require('lodash')
 
 var SpellList = React.createClass({
   clickHandler: function(spell) {
@@ -7,23 +8,28 @@ var SpellList = React.createClass({
   render: function(){
     var spells = []
     this.props.spells.map(function(spell) {
-      var itemType;
+      var classNameList = ['list-group-item', 'spell'];
       switch(spell.afinity) {
         case 'air':
-          itemType = ''
+          // classNameList.push('');
           break;
         case 'earth':
-          itemType = 'list-group-item-warning'
+          classNameList.push('list-group-item-warning');
           break;
         case 'fire':
-          itemType = 'list-group-item-danger'
+          classNameList.push('list-group-item-danger');
           break;
         case 'water':
-          itemType = 'list-group-item-info'
+          classNameList.push('list-group-item-info');
           break;
       }
       spells.push(
-        <a onClick={this.clickHandler.bind(this, spell)} className={"list-group-item " + itemType} key={spell.name}>{spell.name}</a>
+        <a id={'spell-' + spell.id}
+        onClick={this.clickHandler.bind(this, spell)}
+        className={classNameList.join(' ')}
+        key={spell.id}>
+          {spell.name}
+        </a>
       )
     }, this)
     return (
@@ -34,9 +40,25 @@ var SpellList = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 
-
+  clickHandler: function(spell) {
+    var spellButton = document.getElementById('spell-' + spell.id)
+    if(this.props.selectedSpells.length < 3) {
+      if (!_.includes(this.props.selectedSpells, spell)) {
+        this.props.addSpell(spell)
+        spellButton.classList.toggle('active')
+      }else {
+       this.props.removeSpell(spell)
+       spellButton.classList.toggle('active')
+     }
+   } else {
+     if (_.includes(this.props.selectedSpells, spell)) {
+       this.props.removeSpell(spell)
+       spellButton.classList.toggle('active')
+     }
+   }
+ }
 
 })
 

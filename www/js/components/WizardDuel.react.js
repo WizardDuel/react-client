@@ -20,7 +20,7 @@ var WizardDuel = React.createClass({
         room = <Armory enterBattle={this.enterBattle}/>;
         break;
       case 'Battle':
-        room = <BattleRoom endBattle={this.endBattle} />
+        room = <BattleRoom endBattle={this.endBattle} specialSpells={this.state.spells}/>
         break;
       case 'Game Over':
         room = <KillRoom reset={this.reset} winner={this.state.winner}/>
@@ -34,10 +34,11 @@ var WizardDuel = React.createClass({
 
     )
   },
-  enterBattle: function(){
+  enterBattle: function(spells){
     this.replaceState({
       gameStatus: 'Battle'
     })
+    this.setState({spells:spells})
   },
   endBattle: function(winner){
     this.replaceState({
