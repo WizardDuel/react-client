@@ -19717,14 +19717,23 @@
 
 	'use strict';
 
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(163);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _SpellSelect = __webpack_require__(161);
+
+	var _SpellSelect2 = _interopRequireDefault(_SpellSelect);
+
 	var _Spells = __webpack_require__(166);
 
-	var React = __webpack_require__(1);
-	var SpellSelect = __webpack_require__(161);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _ = __webpack_require__(163);
-
-	var Armory = React.createClass({
+	var Armory = _react2.default.createClass({
 	  displayName: 'Armory',
 
 	  getInitialState: function getInitialState() {
@@ -19734,30 +19743,30 @@
 	  },
 
 	  render: function render() {
-	    return React.createElement(
+	    return _react2.default.createElement(
 	      'div',
 	      { className: 'col-md-12' },
-	      React.createElement(
+	      _react2.default.createElement(
 	        'div',
 	        { className: 'row' },
-	        React.createElement(
+	        _react2.default.createElement(
 	          'h2',
 	          null,
 	          'Welcome to Wizard Duel!'
 	        )
 	      ),
-	      React.createElement(
+	      _react2.default.createElement(
 	        'div',
 	        { className: 'row' },
-	        React.createElement(SpellSelect, { spellsList: _Spells.Spells, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.state.selectedSpells })
+	        _react2.default.createElement(_SpellSelect2.default, { spellsList: _Spells.Spells, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.state.selectedSpells })
 	      ),
-	      React.createElement(
+	      _react2.default.createElement(
 	        'div',
 	        { className: 'row' },
-	        React.createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-md-3 col-md-offset-6' },
-	          React.createElement(
+	          _react2.default.createElement(
 	            'button',
 	            { className: 'btn btn-danger pull-right', onClick: this.beginBattle },
 	            'Ready to Duel!'
@@ -19776,7 +19785,7 @@
 	  },
 	  removeSpell: function removeSpell(spell) {
 	    var selectedSpells = this.state.selectedSpells;
-	    _.remove(selectedSpells, function (s) {
+	    _lodash2.default.remove(selectedSpells, function (s) {
 	      return s.id === spell.id;
 	    });
 	    this.replaceState({ selectedSpells: selectedSpells });
@@ -19791,54 +19800,85 @@
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(163);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
 	var _SpellList = __webpack_require__(162);
 
 	var _SpellList2 = _interopRequireDefault(_SpellList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var React = __webpack_require__(1);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _ = __webpack_require__(163);
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	var SpellSelect = React.createClass({
-	  displayName: 'SpellSelect',
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  render: function render() {
-	    var spellsLeft = 3 - this.props.selectedSpells.length;
-	    var spells = _.groupBy(this.props.spellsList['special'], 'type');
-	    var lists = [];
-	    for (var type in spells) {
-	      lists.push(React.createElement(_SpellList2.default, { spells: spells[type], category: type, key: type, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.props.selectedSpells }));
-	    }
+	var SpellSelect = function (_React$Component) {
+	  _inherits(SpellSelect, _React$Component);
 
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h4',
-	        null,
-	        'Select Spells'
-	      ),
-	      React.createElement(
-	        'h6',
-	        null,
-	        ' ',
-	        spellsLeft,
-	        ' spells remaining'
-	      ),
-	      lists
-	    );
-	  },
-	  addSpell: function addSpell(spell) {
-	    this.props.addSpell(spell);
-	  },
-	  removeSpell: function removeSpell(spell) {
-	    this.props.removeSpell(spell);
+	  function SpellSelect() {
+	    _classCallCheck(this, SpellSelect);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SpellSelect).apply(this, arguments));
 	  }
-	});
 
-	module.exports = SpellSelect;
+	  _createClass(SpellSelect, [{
+	    key: 'render',
+	    value: function render() {
+	      var spellsLeft = 3 - this.props.selectedSpells.length;
+	      var spells = _lodash2.default.groupBy(this.props.spellsList['special'], 'type');
+	      var lists = [];
+	      for (var type in spells) {
+	        lists.push(_react2.default.createElement(_SpellList2.default, { spells: spells[type], category: type, key: type, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.props.selectedSpells }));
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          'Select Spells'
+	        ),
+	        _react2.default.createElement(
+	          'h6',
+	          null,
+	          ' ',
+	          spellsLeft,
+	          ' spells remaining'
+	        ),
+	        lists
+	      );
+	    }
+	  }, {
+	    key: 'addSpell',
+	    value: function addSpell(spell) {
+	      this.props.addSpell(spell);
+	    }
+	  }, {
+	    key: 'removeSpell',
+	    value: function removeSpell(spell) {
+	      this.props.removeSpell(spell);
+	    }
+	  }]);
+
+	  return SpellSelect;
+	}(_react2.default.Component);
+
+	exports.default = SpellSelect;
 
 /***/ },
 /* 162 */

@@ -1,10 +1,10 @@
-var React = require('react');
+import React from 'react';
+import _ from 'lodash'
 import SpellList from './SpellList.react';
-var _ = require('lodash')
 
-var SpellSelect = React.createClass({
+export default class SpellSelect extends React.Component {
 
-  render: function(){
+  render(){
     var spellsLeft = 3 - this.props.selectedSpells.length;
     var spells = _.groupBy(this.props.spellsList['special'],'type')
     var lists = [];
@@ -19,13 +19,13 @@ var SpellSelect = React.createClass({
         {lists}
       </div>
     )
-  },
-  addSpell: function(spell) {
+  }
+
+  addSpell(spell) {
     this.props.addSpell(spell)
-  },
-  removeSpell: function(spell) {
+  }
+  
+  removeSpell (spell) {
     this.props.removeSpell(spell)
   }
-});
-
-module.exports = SpellSelect;
+}
