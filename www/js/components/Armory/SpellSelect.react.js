@@ -1,5 +1,5 @@
 var React = require('react');
-var SpellList = require('./SpellList.react');
+import SpellList from './SpellList.react';
 var _ = require('lodash')
 
 var SpellSelect = React.createClass({

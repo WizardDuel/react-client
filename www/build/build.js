@@ -44,6 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var WizardDuel = __webpack_require__(159);
@@ -19649,6 +19651,8 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var React = __webpack_require__(1);
 	var Armory = __webpack_require__(160);
 	var BattleRoom = __webpack_require__(167);
@@ -19658,14 +19662,14 @@
 	var WizardDuel = React.createClass({
 	  displayName: 'WizardDuel',
 
-	  getInitialState: function () {
+	  getInitialState: function getInitialState() {
 	    return {
 	      gameStatus: 'Setup',
 	      socket: null,
 	      winner: null
 	    };
 	  },
-	  render: function () {
+	  render: function render() {
 
 	    var room;
 	    switch (this.state.gameStatus) {
@@ -19686,19 +19690,19 @@
 	      room
 	    );
 	  },
-	  enterBattle: function (spells) {
+	  enterBattle: function enterBattle(spells) {
 	    this.replaceState({
 	      gameStatus: 'Battle'
 	    });
 	    this.setState({ spells: spells });
 	  },
-	  endBattle: function (winner) {
+	  endBattle: function endBattle(winner) {
 	    this.replaceState({
 	      gameStatus: 'Game Over',
 	      winner: winner
 	    });
 	  },
-	  reset: function () {
+	  reset: function reset() {
 	    this.replaceState({
 	      gameStatus: 'Setup'
 	    });
@@ -19711,21 +19715,25 @@
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _Spells = __webpack_require__(166);
+
 	var React = __webpack_require__(1);
 	var SpellSelect = __webpack_require__(161);
-	var Spells = __webpack_require__(166);
+
 	var _ = __webpack_require__(163);
 
 	var Armory = React.createClass({
 	  displayName: 'Armory',
 
-	  getInitialState: function () {
+	  getInitialState: function getInitialState() {
 	    return {
 	      selectedSpells: []
 	    };
 	  },
 
-	  render: function () {
+	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      { className: 'col-md-12' },
@@ -19741,7 +19749,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'row' },
-	        React.createElement(SpellSelect, { spellsList: Spells, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.state.selectedSpells })
+	        React.createElement(SpellSelect, { spellsList: _Spells.Spells, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.state.selectedSpells })
 	      ),
 	      React.createElement(
 	        'div',
@@ -19758,15 +19766,15 @@
 	      )
 	    );
 	  },
-	  beginBattle: function () {
+	  beginBattle: function beginBattle() {
 	    this.props.enterBattle(this.state.selectedSpells);
 	  },
-	  addSpell: function (spell) {
+	  addSpell: function addSpell(spell) {
 	    var selectedSpells = this.state.selectedSpells;
 	    selectedSpells.push(spell);
 	    this.replaceState({ selectedSpells: selectedSpells });
 	  },
-	  removeSpell: function (spell) {
+	  removeSpell: function removeSpell(spell) {
 	    var selectedSpells = this.state.selectedSpells;
 	    _.remove(selectedSpells, function (s) {
 	      return s.id === spell.id;
@@ -19781,19 +19789,27 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _SpellList = __webpack_require__(162);
+
+	var _SpellList2 = _interopRequireDefault(_SpellList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var React = __webpack_require__(1);
-	var SpellList = __webpack_require__(162);
+
 	var _ = __webpack_require__(163);
 
 	var SpellSelect = React.createClass({
 	  displayName: 'SpellSelect',
 
-	  render: function () {
+	  render: function render() {
 	    var spellsLeft = 3 - this.props.selectedSpells.length;
 	    var spells = _.groupBy(this.props.spellsList['special'], 'type');
 	    var lists = [];
 	    for (var type in spells) {
-	      lists.push(React.createElement(SpellList, { spells: spells[type], category: type, key: type, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.props.selectedSpells }));
+	      lists.push(React.createElement(_SpellList2.default, { spells: spells[type], category: type, key: type, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.props.selectedSpells }));
 	    }
 
 	    return React.createElement(
@@ -19814,10 +19830,10 @@
 	      lists
 	    );
 	  },
-	  addSpell: function (spell) {
+	  addSpell: function addSpell(spell) {
 	    this.props.addSpell(spell);
 	  },
-	  removeSpell: function (spell) {
+	  removeSpell: function removeSpell(spell) {
 	    this.props.removeSpell(spell);
 	  }
 	});
@@ -19828,79 +19844,108 @@
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var _ = __webpack_require__(163);
+	'use strict';
 
-	var SpellList = React.createClass({
-	  displayName: 'SpellList',
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	  clickHandler: function (spell) {
-	    console.log(spell);
-	  },
-	  render: function () {
-	    var spells = [];
-	    this.props.spells.map(function (spell) {
-	      var classNameList = ['list-group-item', 'spell'];
-	      switch (spell.afinity) {
-	        case 'air':
-	          // classNameList.push('');
-	          break;
-	        case 'earth':
-	          classNameList.push('list-group-item-warning');
-	          break;
-	        case 'fire':
-	          classNameList.push('list-group-item-danger');
-	          break;
-	        case 'water':
-	          classNameList.push('list-group-item-info');
-	          break;
-	      }
-	      spells.push(React.createElement(
-	        'a',
-	        { id: 'spell-' + spell.id,
-	          onClick: this.clickHandler.bind(this, spell),
-	          className: classNameList.join(' '),
-	          key: spell.id },
-	        spell.name
-	      ));
-	    }, this);
-	    return React.createElement(
-	      'div',
-	      { className: 'col-md-3' },
-	      React.createElement(
-	        'h5',
-	        null,
-	        this.props.category
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'list-group' },
-	        spells
-	      )
-	    );
-	  },
-
-	  clickHandler: function (spell) {
-	    var spellButton = document.getElementById('spell-' + spell.id);
-	    if (this.props.selectedSpells.length < 3) {
-	      if (!_.includes(this.props.selectedSpells, spell)) {
-	        this.props.addSpell(spell);
-	        spellButton.classList.toggle('active');
-	      } else {
-	        this.props.removeSpell(spell);
-	        spellButton.classList.toggle('active');
-	      }
-	    } else {
-	      if (_.includes(this.props.selectedSpells, spell)) {
-	        this.props.removeSpell(spell);
-	        spellButton.classList.toggle('active');
-	      }
-	    }
-	  }
-
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 
-	module.exports = SpellList;
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(163);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SpellList = function (_React$Component) {
+	  _inherits(SpellList, _React$Component);
+
+	  function SpellList() {
+	    _classCallCheck(this, SpellList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SpellList).apply(this, arguments));
+	  }
+
+	  _createClass(SpellList, [{
+	    key: 'render',
+	    value: function render() {
+	      var spells = [];
+	      this.props.spells.map(function (spell) {
+	        var classNameList = ['list-group-item', 'spell'];
+	        switch (spell.afinity) {
+	          case 'air':
+	            // classNameList.push('');
+	            break;
+	          case 'earth':
+	            classNameList.push('list-group-item-warning');
+	            break;
+	          case 'fire':
+	            classNameList.push('list-group-item-danger');
+	            break;
+	          case 'water':
+	            classNameList.push('list-group-item-info');
+	            break;
+	        }
+	        spells.push(_react2.default.createElement(
+	          'a',
+	          { id: 'spell-' + spell.id,
+	            onClick: this.clickHandler.bind(this, spell),
+	            className: classNameList.join(' '),
+	            key: spell.id },
+	          spell.name
+	        ));
+	      }, this);
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'col-md-3' },
+	        _react2.default.createElement(
+	          'h5',
+	          null,
+	          this.props.category
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'list-group' },
+	          spells
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'clickHandler',
+	    value: function clickHandler(spell) {
+	      var spellButton = document.getElementById('spell-' + spell.id);
+	      if (this.props.selectedSpells.length < 3) {
+	        if (!_lodash2.default.includes(this.props.selectedSpells, spell)) {
+	          this.props.addSpell(spell);
+	          spellButton.classList.toggle('active');
+	        } else {
+	          this.props.removeSpell(spell);
+	          spellButton.classList.toggle('active');
+	        }
+	      } else {
+	        if (_lodash2.default.includes(this.props.selectedSpells, spell)) {
+	          this.props.removeSpell(spell);
+	          spellButton.classList.toggle('active');
+	        }
+	      }
+	    }
+	  }]);
+
+	  return SpellList;
+	}(_react2.default.Component);
+
+	exports.default = SpellList;
 
 /***/ },
 /* 163 */
@@ -34335,23 +34380,28 @@
 /* 166 */
 /***/ function(module, exports) {
 
-	Spells = {
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var Spells = exports.Spells = {
 	  basic: [{ name: 'Magic Missile', type: 'Attack', target: 'foe', role: 'attack', afinity: 'basic', cost: 5, id: 1 }, { name: 'Heal', type: 'recovery', target: 'caster', role: 'heal', afinity: 'basic', cost: 5, power: 5, id: 2 }, { name: 'Force Armor', type: 'buff', target: 'caster', role: 'buff', afinity: 'basic', cost: 5, duration: 15, id: 3 }, { name: 'Mystical Judo', type: 'Repost', target: 'foe', role: 'counter', afinity: 'basic', cost: 6, id: 4 }, { name: 'Warp spacetime', type: 'Perry', target: 'foe', role: 'perry', afinity: 'basic', cost: 5, id: 5 }],
 	  special: [{ name: 'Water Coffin', type: 'Attack', target: 'foe', role: 'attack', afinity: 'water', cost: 7, id: 6 }, { name: 'Tidal Barrier', type: 'Perry', target: 'foe', role: 'perry', afinity: 'water', cost: 5, id: 7 }, { name: 'Whirlpool', type: 'Repost', target: 'foe', role: 'counter', afinity: 'water', cost: 6, id: 8 }, { name: 'Fire Shield', type: 'Perry', target: 'foe', role: 'perry', afinity: 'fire', cost: 7, id: 9 }, { name: 'Flame Strike', type: 'Attack', target: 'foe', role: 'attack', afinity: 'fire', cost: 5, id: 10 }, { name: 'Firery Boomerang', type: 'Repost', target: 'foe', role: 'counter', afinity: 'fire', cost: 6, id: 11 }, { name: 'Wind Swords', type: 'Attack', target: 'foe', role: 'attack', afinity: 'air', cost: 7, id: 12 }, { name: 'Wall of Winds', type: 'Perry', target: 'foe', role: 'perry', afinity: 'air', cost: 5, id: 13 }, { name: 'Sudden Gust', type: 'Repost', target: 'foe', role: 'counter', afinity: 'air', cost: 6, id: 14 }, { name: 'Earthen Rampart', type: 'Perry', target: 'foe', role: 'perry', afinity: 'earth', cost: 7, id: 15 }, { name: 'Rock Slide', type: 'Attack', target: 'foe', role: 'attack', afinity: 'earth', cost: 5, id: 16 }, { name: 'Rotate Ground', type: 'Repost', target: 'foe', role: 'counter', afinity: 'earth', cost: 6, id: 17 }]
 	};
 
-	module.exports = Spells;
-
 /***/ },
 /* 167 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var React = __webpack_require__(1);
 
 	var BattleRoom = React.createClass({
 	  displayName: "BattleRoom",
 
-	  render: function () {
+	  render: function render() {
 
 	    return React.createElement(
 	      "div",
@@ -34368,7 +34418,7 @@
 	      )
 	    );
 	  },
-	  endBattle: function (winner) {
+	  endBattle: function endBattle(winner) {
 	    this.props.endBattle(winner);
 	  }
 	});
@@ -34379,12 +34429,14 @@
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var React = __webpack_require__(1);
 
 	var KillRoom = React.createClass({
 	  displayName: "KillRoom",
 
-	  render: function () {
+	  render: function render() {
 
 	    return React.createElement(
 	      "div",
@@ -34402,7 +34454,7 @@
 	      )
 	    );
 	  },
-	  reset: function () {
+	  reset: function reset() {
 	    this.props.reset();
 	  }
 	});

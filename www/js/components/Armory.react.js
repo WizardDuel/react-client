@@ -1,6 +1,6 @@
 var React = require('react');
 var SpellSelect = require('./Armory/SpellSelect.react');
-var Spells = require('./Armory/Spells');
+import { Spells } from './Armory/Spells';
 var _ = require('lodash');
 
 var Armory = React.createClass({

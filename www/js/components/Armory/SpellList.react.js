@@ -1,11 +1,9 @@
-var React = require('react');
-var _ = require('lodash')
+import React from 'react'
+import _ from 'lodash'
 
-var SpellList = React.createClass({
-  clickHandler: function(spell) {
-    console.log(spell)
-  },
-  render: function(){
+export default class SpellList extends React.Component {
+
+  render() {
     var spells = []
     this.props.spells.map(function(spell) {
       var classNameList = ['list-group-item', 'spell'];
@@ -40,9 +38,9 @@ var SpellList = React.createClass({
         </div>
       </div>
     )
-  },
+  }
 
-  clickHandler: function(spell) {
+  clickHandler(spell) {
     var spellButton = document.getElementById('spell-' + spell.id)
     if(this.props.selectedSpells.length < 3) {
       if (!_.includes(this.props.selectedSpells, spell)) {
@@ -59,7 +57,4 @@ var SpellList = React.createClass({
      }
    }
  }
-
-})
-
-module.exports = SpellList;
+}

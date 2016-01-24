@@ -1,4 +1,4 @@
-Spells = {
+export const Spells = {
   basic:[
     {name: 'Magic Missile', type: 'Attack', target: 'foe', role: 'attack', afinity: 'basic', cost: 5, id:1},
     {name: 'Heal', type: 'recovery', target: 'caster', role: 'heal', afinity: 'basic', cost: 5, power: 5, id:2},
@@ -25,5 +25,3 @@ Spells = {
 
   ]
 };
-
-module.exports = Spells;
