@@ -3,15 +3,13 @@ import _ from 'lodash';
 import SpellSelect from './Armory/SpellSelect.react';
 import { Spells } from './Armory/Spells';
 
+export default class Armory extends React.Component {
+  constructor(props) {
+    super(props)
+     this.state = { selectedSpells: [] }
+   }
 
-var Armory = React.createClass({
-  getInitialState: function() {
-    return {
-      selectedSpells: []
-    }
-  },
-
-  render: function() {
+  render() {
     return (
       <div className="col-md-12">
         <div className="row">
@@ -27,20 +25,20 @@ var Armory = React.createClass({
         </div>
       </div>
     )
-  },
-  beginBattle: function() {
+  }
+
+  beginBattle() {
     this.props.enterBattle(this.state.selectedSpells)
-  },
-  addSpell: function(spell) {
+  }
+  
+  addSpell(spell) {
     var selectedSpells = this.state.selectedSpells
     selectedSpells.push(spell)
     this.replaceState({selectedSpells: selectedSpells})
-  },
-  removeSpell: function(spell) {
+  }
+  removeSpell(spell) {
     var selectedSpells = this.state.selectedSpells
     _.remove(selectedSpells, function(s) {return s.id === spell.id} )
     this.replaceState({selectedSpells: selectedSpells})
   }
-});
-
-module.exports = Armory;
+}

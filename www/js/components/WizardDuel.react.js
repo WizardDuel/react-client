@@ -1,5 +1,5 @@
-var React = require('react');
-var Armory = require('./Armory.react');
+import React from 'react';
+import Armory from './Armory.react';
 var BattleRoom = require('./BattleRoom.react');
 var KillRoom = require('./KillRoom.react');
 var io = require('socket.io-client');
