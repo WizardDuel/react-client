@@ -46,11 +46,16 @@
 
 	'use strict';
 
+	var _WizardDuel = __webpack_require__(159);
+
+	var _WizardDuel2 = _interopRequireDefault(_WizardDuel);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var WizardDuel = __webpack_require__(159);
 
-	ReactDOM.render(React.createElement(WizardDuel, null), document.getElementById('main'));
+	ReactDOM.render(React.createElement(_WizardDuel2.default, null), document.getElementById('main'));
 
 /***/ },
 /* 1 */
@@ -19653,6 +19658,12 @@
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -19661,63 +19672,93 @@
 
 	var _Armory2 = _interopRequireDefault(_Armory);
 
+	var _BattleRoom = __webpack_require__(161);
+
+	var _BattleRoom2 = _interopRequireDefault(_BattleRoom);
+
+	var _KillRoom = __webpack_require__(162);
+
+	var _KillRoom2 = _interopRequireDefault(_KillRoom);
+
+	var _socket = __webpack_require__(163);
+
+	var _socket2 = _interopRequireDefault(_socket);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var BattleRoom = __webpack_require__(161);
-	var KillRoom = __webpack_require__(162);
-	var io = __webpack_require__(163);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var WizardDuel = _react2.default.createClass({
-	  displayName: 'WizardDuel',
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  getInitialState: function getInitialState() {
-	    return {
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var WizardDuel = function (_React$Component) {
+	  _inherits(WizardDuel, _React$Component);
+
+	  function WizardDuel(props) {
+	    _classCallCheck(this, WizardDuel);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WizardDuel).call(this, props));
+
+	    _this.state = {
 	      gameStatus: 'Setup',
 	      socket: null,
 	      winner: null
 	    };
-	  },
-	  render: function render() {
-
-	    var room;
-	    switch (this.state.gameStatus) {
-	      case 'Setup':
-	        room = _react2.default.createElement(_Armory2.default, { enterBattle: this.enterBattle });
-	        break;
-	      case 'Battle':
-	        room = _react2.default.createElement(BattleRoom, { endBattle: this.endBattle, specialSpells: this.state.spells });
-	        break;
-	      case 'Game Over':
-	        room = _react2.default.createElement(KillRoom, { reset: this.reset, winner: this.state.winner });
-	        break;
-	    }
-
-	    return _react2.default.createElement(
-	      'section',
-	      { className: 'container-fluid' },
-	      room
-	    );
-	  },
-	  enterBattle: function enterBattle(spells) {
-	    this.replaceState({
-	      gameStatus: 'Battle'
-	    });
-	    this.setState({ spells: spells });
-	  },
-	  endBattle: function endBattle(winner) {
-	    this.replaceState({
-	      gameStatus: 'Game Over',
-	      winner: winner
-	    });
-	  },
-	  reset: function reset() {
-	    this.replaceState({
-	      gameStatus: 'Setup'
-	    });
+	    return _this;
 	  }
 
-	});
-	module.exports = WizardDuel;
+	  _createClass(WizardDuel, [{
+	    key: 'render',
+	    value: function render() {
+	      var room = undefined;
+	      switch (this.state.gameStatus) {
+	        case 'Setup':
+	          room = _react2.default.createElement(_Armory2.default, { enterBattle: this.enterBattle });
+	          break;
+	        case 'Battle':
+	          room = _react2.default.createElement(_BattleRoom2.default, { endBattle: this.endBattle, specialSpells: this.state.spells });
+	          break;
+	        case 'Game Over':
+	          room = _react2.default.createElement(_KillRoom2.default, { reset: this.reset, winner: this.state.winner });
+	          break;
+	      }
+
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'container-fluid' },
+	        room
+	      );
+	    }
+	  }, {
+	    key: 'enterBattle',
+	    value: function enterBattle(spells) {
+	      this.replaceState({
+	        gameStatus: 'Battle'
+	      });
+	      this.setState({ spells: spells });
+	    }
+	  }, {
+	    key: 'endBattle',
+	    value: function endBattle(winner) {
+	      this.replaceState({
+	        gameStatus: 'Game Over',
+	        winner: winner
+	      });
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      this.replaceState({
+	        gameStatus: 'Setup'
+	      });
+	    }
+	  }]);
+
+	  return WizardDuel;
+	}(_react2.default.Component);
+
+	exports.default = WizardDuel;
 
 /***/ },
 /* 160 */
@@ -19783,7 +19824,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row' },
-	          _react2.default.createElement(_SpellSelect2.default, { spellsList: _Spells.Spells, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.state.selectedSpells })
+	          _react2.default.createElement(_SpellSelect2.default, { spellsList: _Spells.SpecialSpells, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.state.selectedSpells })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -41947,7 +41988,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var spellsLeft = 3 - this.props.selectedSpells.length;
-	      var spells = _lodash2.default.groupBy(this.props.spellsList['special'], 'type');
+	      var spells = _lodash2.default.groupBy(this.props.spellsList, 'type');
 	      var lists = [];
 	      for (var type in spells) {
 	        lists.push(_react2.default.createElement(_SpellList2.default, { spells: spells[type], category: type, key: type, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.props.selectedSpells }));
@@ -42104,10 +42145,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var Spells = exports.Spells = {
-	  basic: [{ name: 'Magic Missile', type: 'Attack', target: 'foe', role: 'attack', afinity: 'basic', cost: 5, id: 1 }, { name: 'Heal', type: 'recovery', target: 'caster', role: 'heal', afinity: 'basic', cost: 5, power: 5, id: 2 }, { name: 'Force Armor', type: 'buff', target: 'caster', role: 'buff', afinity: 'basic', cost: 5, duration: 15, id: 3 }, { name: 'Mystical Judo', type: 'Repost', target: 'foe', role: 'counter', afinity: 'basic', cost: 6, id: 4 }, { name: 'Warp spacetime', type: 'Perry', target: 'foe', role: 'perry', afinity: 'basic', cost: 5, id: 5 }],
-	  special: [{ name: 'Water Coffin', type: 'Attack', target: 'foe', role: 'attack', afinity: 'water', cost: 7, id: 6 }, { name: 'Tidal Barrier', type: 'Perry', target: 'foe', role: 'perry', afinity: 'water', cost: 5, id: 7 }, { name: 'Whirlpool', type: 'Repost', target: 'foe', role: 'counter', afinity: 'water', cost: 6, id: 8 }, { name: 'Fire Shield', type: 'Perry', target: 'foe', role: 'perry', afinity: 'fire', cost: 7, id: 9 }, { name: 'Flame Strike', type: 'Attack', target: 'foe', role: 'attack', afinity: 'fire', cost: 5, id: 10 }, { name: 'Firery Boomerang', type: 'Repost', target: 'foe', role: 'counter', afinity: 'fire', cost: 6, id: 11 }, { name: 'Wind Swords', type: 'Attack', target: 'foe', role: 'attack', afinity: 'air', cost: 7, id: 12 }, { name: 'Wall of Winds', type: 'Perry', target: 'foe', role: 'perry', afinity: 'air', cost: 5, id: 13 }, { name: 'Sudden Gust', type: 'Repost', target: 'foe', role: 'counter', afinity: 'air', cost: 6, id: 14 }, { name: 'Earthen Rampart', type: 'Perry', target: 'foe', role: 'perry', afinity: 'earth', cost: 7, id: 15 }, { name: 'Rock Slide', type: 'Attack', target: 'foe', role: 'attack', afinity: 'earth', cost: 5, id: 16 }, { name: 'Rotate Ground', type: 'Repost', target: 'foe', role: 'counter', afinity: 'earth', cost: 6, id: 17 }]
-	};
+	var BasicSpells = exports.BasicSpells = [{ name: 'Magic Missile', type: 'Attack', target: 'foe', role: 'attack', afinity: 'basic', cost: 5, id: 1 }, { name: 'Heal', type: 'recovery', target: 'caster', role: 'heal', afinity: 'basic', cost: 5, power: 5, id: 2 }, { name: 'Force Armor', type: 'buff', target: 'caster', role: 'buff', afinity: 'basic', cost: 5, duration: 15, id: 3 }, { name: 'Mystical Judo', type: 'Repost', target: 'foe', role: 'counter', afinity: 'basic', cost: 6, id: 4 }, { name: 'Warp spacetime', type: 'Perry', target: 'foe', role: 'perry', afinity: 'basic', cost: 5, id: 5 }];
+	var SpecialSpells = exports.SpecialSpells = [{ name: 'Water Coffin', type: 'Attack', target: 'foe', role: 'attack', afinity: 'water', cost: 7, id: 6 }, { name: 'Tidal Barrier', type: 'Perry', target: 'foe', role: 'perry', afinity: 'water', cost: 5, id: 7 }, { name: 'Whirlpool', type: 'Repost', target: 'foe', role: 'counter', afinity: 'water', cost: 6, id: 8 }, { name: 'Fire Shield', type: 'Perry', target: 'foe', role: 'perry', afinity: 'fire', cost: 7, id: 9 }, { name: 'Flame Strike', type: 'Attack', target: 'foe', role: 'attack', afinity: 'fire', cost: 5, id: 10 }, { name: 'Firery Boomerang', type: 'Repost', target: 'foe', role: 'counter', afinity: 'fire', cost: 6, id: 11 }, { name: 'Wind Swords', type: 'Attack', target: 'foe', role: 'attack', afinity: 'air', cost: 7, id: 12 }, { name: 'Wall of Winds', type: 'Perry', target: 'foe', role: 'perry', afinity: 'air', cost: 5, id: 13 }, { name: 'Sudden Gust', type: 'Repost', target: 'foe', role: 'counter', afinity: 'air', cost: 6, id: 14 }, { name: 'Earthen Rampart', type: 'Perry', target: 'foe', role: 'perry', afinity: 'earth', cost: 7, id: 15 }, { name: 'Rock Slide', type: 'Attack', target: 'foe', role: 'attack', afinity: 'earth', cost: 5, id: 16 }, { name: 'Rotate Ground', type: 'Repost', target: 'foe', role: 'counter', afinity: 'earth', cost: 6, id: 17 }];
 
 /***/ }
 /******/ ]);

@@ -4,7 +4,7 @@ import _ from 'lodash'
 export default class SpellList extends React.Component {
 
   render() {
-    var spells = []
+    let spells = []
     this.props.spells.map(function(spell) {
       var classNameList = ['list-group-item', 'spell'];
       switch(spell.afinity) {
@@ -41,7 +41,7 @@ export default class SpellList extends React.Component {
   }
 
   clickHandler(spell) {
-    var spellButton = document.getElementById('spell-' + spell.id)
+    let spellButton = document.getElementById('spell-' + spell.id)
     if(this.props.selectedSpells.length < 3) {
       if (!_.includes(this.props.selectedSpells, spell)) {
         this.props.addSpell(spell)

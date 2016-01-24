@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import SpellSelect from './Armory/SpellSelect.react';
-import { Spells } from './Armory/Spells';
+import { SpecialSpells as Spells } from './Armory/Spells';
 
 export default class Armory extends React.Component {
   constructor(props) {
@@ -30,14 +30,14 @@ export default class Armory extends React.Component {
   beginBattle() {
     this.props.enterBattle(this.state.selectedSpells)
   }
-  
+
   addSpell(spell) {
-    var selectedSpells = this.state.selectedSpells
+    let selectedSpells = this.state.selectedSpells
     selectedSpells.push(spell)
     this.replaceState({selectedSpells: selectedSpells})
   }
   removeSpell(spell) {
-    var selectedSpells = this.state.selectedSpells
+    let selectedSpells = this.state.selectedSpells
     _.remove(selectedSpells, function(s) {return s.id === spell.id} )
     this.replaceState({selectedSpells: selectedSpells})
   }
