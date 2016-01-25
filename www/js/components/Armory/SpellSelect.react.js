@@ -3,6 +3,9 @@ import _ from 'lodash'
 import SpellList from './SpellList.react';
 
 export default class SpellSelect extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
   render(){
     let spellsLeft = 3 - this.props.selectedSpells.length;

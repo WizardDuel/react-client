@@ -2,6 +2,9 @@ import React from 'react'
 import _ from 'lodash'
 
 export default class SpellList extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
   render() {
     let spells = []

@@ -6,7 +6,8 @@ import { SpecialSpells as Spells } from './Armory/Spells';
 export default class Armory extends React.Component {
   constructor(props) {
     super(props)
-     this.state = { selectedSpells: [] }
+    this.state = { selectedSpells: [] }
+    this.beginBattle = this.beginBattle.bind(this);
    }
 
   render() {
