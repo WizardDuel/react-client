@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import {GameStore} from '../../stores/GameStore'
 
 export default class SpellList extends React.Component {
   constructor(props) {
@@ -44,18 +45,19 @@ export default class SpellList extends React.Component {
   }
 
   clickHandler(spell) {
+    let selectedSpells = GameStore.getState().spells;
     let spellButton = document.getElementById('spell-' + spell.id)
-    if(this.props.selectedSpells.length < 3) {
-      if (!_.includes(this.props.selectedSpells, spell)) {
-        this.props.addSpell(spell)
+    if(selectedSpells.length < 3) {
+      if (!_.includes(selectedSpells, spell)) {
+        GameStore.dispatch({type: 'ADD_SPELL', spell})
         spellButton.classList.toggle('active')
       }else {
-       this.props.removeSpell(spell)
-       spellButton.classList.toggle('active')
+        GameStore.dispatch({type: 'REMOVE_SPELL', spell})
+        spellButton.classList.toggle('active')
      }
    } else {
-     if (_.includes(this.props.selectedSpells, spell)) {
-       this.props.removeSpell(spell)
+     if (_.includes(selectedSpells, spell)) {
+       GameStore.dispatch({type: 'REMOVE_SPELL', spell})
        spellButton.classList.toggle('active')
      }
    }

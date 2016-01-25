@@ -7,10 +7,7 @@ import { GameStore } from '../stores/GameStore';
 export default class Armory extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { selectedSpells: [] }
     this.beginBattle = this.beginBattle.bind(this);
-    this.addSpell = this.addSpell.bind(this);
-    this.removeSpell = this.removeSpell.bind(this);
    }
 
   render() {
@@ -20,7 +17,7 @@ export default class Armory extends React.Component {
           <h2>Welcome to Wizard Duel!</h2>
         </div>
         <div className="row">
-          <SpellSelect spellsList={Spells} addSpell={this.addSpell} removeSpell={this.removeSpell} selectedSpells={this.state.selectedSpells}/>
+          <SpellSelect spellsList={Spells} selectedSpells={GameStore.getState().spells}/>
         </div>
         <div className="row">
           <div className="col-md-3 col-md-offset-6">
@@ -32,19 +29,6 @@ export default class Armory extends React.Component {
   }
 
   beginBattle() {
-    this.props.enterBattle(this.state.selectedSpells);
-  }
-
-  // refactor to call ADD_SPELL and REMOVE_SPELL actions
-  addSpell(spell) {
-    let selectedSpells = [...GameStore.getState().spells, spell];
-    GameStore.dispatch({type: 'MODIFY_SPELLS', updates: {spells: selectedSpells}});
-    this.forceUpdate();
-  }
-  removeSpell(spell) {
-    let selectedSpells = GameStore.getState().spells
-    _.remove(selectedSpells, function(s) {return s.id === spell.id} )
-    GameStore.dispatch({type: 'MODIFY_SPELLS', updates: {spells: selectedSpells}});
-    this.forceUpdate();
+    this.props.enterBattle(GameStore.getState().spells);
   }
 }

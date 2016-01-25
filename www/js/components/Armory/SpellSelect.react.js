@@ -5,8 +5,6 @@ import SpellList from './SpellList.react';
 export default class SpellSelect extends React.Component {
   constructor(props) {
     super(props)
-    this.addSpell = this.addSpell.bind(this)
-    this.removeSpell = this.removeSpell.bind(this)
   }
 
   render(){
@@ -14,7 +12,7 @@ export default class SpellSelect extends React.Component {
     let spells = _.groupBy(this.props.spellsList,'type')
     let lists = [];
     for (var type in spells) {
-      lists.push( <SpellList spells={spells[type]} category={type} key={type} addSpell={this.addSpell} removeSpell={this.removeSpell} selectedSpells={this.props.selectedSpells}/> )
+      lists.push( <SpellList spells={spells[type]} category={type} key={type} selectedSpells={this.props.selectedSpells}/> )
     }
 
     return (
@@ -26,10 +24,4 @@ export default class SpellSelect extends React.Component {
     )
   }
 
-  addSpell(spell) {
-    this.props.addSpell(spell)
-  }
-  removeSpell (spell) {
-    this.props.removeSpell(spell)
-  }
 }

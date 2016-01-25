@@ -5,18 +5,9 @@ import KillRoom from './KillRoom.react';
 import io from 'socket.io-client';
 import {GameStore as store, InitialState} from '../stores/GameStore';
 
-store.subscribe(() => {
-  console.log(store.getState())
-});
-
 export default class WizardDuel extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      gameStatus: 'Setup',
-      socket: null,
-      winner: null,
-    }
     this.enterBattle = this.enterBattle.bind(this)
     this.endBattle = this.endBattle.bind(this)
     this.reset = this.reset.bind(this)
@@ -28,7 +19,7 @@ export default class WizardDuel extends React.Component {
   render() {
     let state = store.getState()
     let room;
-    switch(store.getState().gameStatus) {
+    switch(state.gameStatus) {
       case 'Setup':
         room = <Armory enterBattle={this.enterBattle}/>;
         break;

@@ -11,8 +11,11 @@ function gameSetup(state = InitialState, action){
   switch(action.type) {
     case 'UPDATE_STATUS':
       return Object.assign({}, state, action.updates);
-    case 'MODIFY_SPELLS':
-      return Object.assign({}, state, action.updates);
+    case 'ADD_SPELL':
+      return Object.assign({}, state, {spells: [...state.spells, action.spell]})
+    case 'REMOVE_SPELL':
+      return Object.assign({}, state,
+        {spells: state.spells.filter((s) => { return s.id !== action.spell.id })})
     default:
       return state
   }

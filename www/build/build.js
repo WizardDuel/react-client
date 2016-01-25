@@ -19694,10 +19694,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	_GameStore.GameStore.subscribe(function () {
-	  console.log(_GameStore.GameStore.getState());
-	});
-
 	var WizardDuel = function (_React$Component) {
 	  _inherits(WizardDuel, _React$Component);
 
@@ -19706,11 +19702,6 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WizardDuel).call(this, props));
 
-	    _this.state = {
-	      gameStatus: 'Setup',
-	      socket: null,
-	      winner: null
-	    };
 	    _this.enterBattle = _this.enterBattle.bind(_this);
 	    _this.endBattle = _this.endBattle.bind(_this);
 	    _this.reset = _this.reset.bind(_this);
@@ -19731,7 +19722,7 @@
 	    value: function render() {
 	      var state = _GameStore.GameStore.getState();
 	      var room = undefined;
-	      switch (_GameStore.GameStore.getState().gameStatus) {
+	      switch (state.gameStatus) {
 	        case 'Setup':
 	          room = _react2.default.createElement(_Armory2.default, { enterBattle: this.enterBattle });
 	          break;
@@ -19801,8 +19792,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -19817,10 +19806,7 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Armory).call(this, props));
 
-	    _this.state = { selectedSpells: [] };
 	    _this.beginBattle = _this.beginBattle.bind(_this);
-	    _this.addSpell = _this.addSpell.bind(_this);
-	    _this.removeSpell = _this.removeSpell.bind(_this);
 	    return _this;
 	  }
 
@@ -19842,7 +19828,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row' },
-	          _react2.default.createElement(_SpellSelect2.default, { spellsList: _Spells.SpecialSpells, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.state.selectedSpells })
+	          _react2.default.createElement(_SpellSelect2.default, { spellsList: _Spells.SpecialSpells, selectedSpells: _GameStore.GameStore.getState().spells })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -19862,27 +19848,7 @@
 	  }, {
 	    key: 'beginBattle',
 	    value: function beginBattle() {
-	      this.props.enterBattle(this.state.selectedSpells);
-	    }
-
-	    // refactor to call ADD_SPELL and REMOVE_SPELL actions
-
-	  }, {
-	    key: 'addSpell',
-	    value: function addSpell(spell) {
-	      var selectedSpells = [].concat(_toConsumableArray(_GameStore.GameStore.getState().spells), [spell]);
-	      _GameStore.GameStore.dispatch({ type: 'MODIFY_SPELLS', updates: { spells: selectedSpells } });
-	      this.forceUpdate();
-	    }
-	  }, {
-	    key: 'removeSpell',
-	    value: function removeSpell(spell) {
-	      var selectedSpells = _GameStore.GameStore.getState().spells;
-	      _lodash2.default.remove(selectedSpells, function (s) {
-	        return s.id === spell.id;
-	      });
-	      _GameStore.GameStore.dispatch({ type: 'MODIFY_SPELLS', updates: { spells: selectedSpells } });
-	      this.forceUpdate();
+	      this.props.enterBattle(_GameStore.GameStore.getState().spells);
 	    }
 	  }]);
 
@@ -42003,11 +41969,7 @@
 	  function SpellSelect(props) {
 	    _classCallCheck(this, SpellSelect);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SpellSelect).call(this, props));
-
-	    _this.addSpell = _this.addSpell.bind(_this);
-	    _this.removeSpell = _this.removeSpell.bind(_this);
-	    return _this;
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SpellSelect).call(this, props));
 	  }
 
 	  _createClass(SpellSelect, [{
@@ -42017,7 +41979,7 @@
 	      var spells = _lodash2.default.groupBy(this.props.spellsList, 'type');
 	      var lists = [];
 	      for (var type in spells) {
-	        lists.push(_react2.default.createElement(_SpellList2.default, { spells: spells[type], category: type, key: type, addSpell: this.addSpell, removeSpell: this.removeSpell, selectedSpells: this.props.selectedSpells }));
+	        lists.push(_react2.default.createElement(_SpellList2.default, { spells: spells[type], category: type, key: type, selectedSpells: this.props.selectedSpells }));
 	      }
 
 	      return _react2.default.createElement(
@@ -42037,16 +41999,6 @@
 	        ),
 	        lists
 	      );
-	    }
-	  }, {
-	    key: 'addSpell',
-	    value: function addSpell(spell) {
-	      this.props.addSpell(spell);
-	    }
-	  }, {
-	    key: 'removeSpell',
-	    value: function removeSpell(spell) {
-	      this.props.removeSpell(spell);
 	    }
 	  }]);
 
@@ -42074,6 +42026,8 @@
 	var _lodash = __webpack_require__(211);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _GameStore = __webpack_require__(226);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42139,18 +42093,19 @@
 	  }, {
 	    key: 'clickHandler',
 	    value: function clickHandler(spell) {
+	      var selectedSpells = _GameStore.GameStore.getState().spells;
 	      var spellButton = document.getElementById('spell-' + spell.id);
-	      if (this.props.selectedSpells.length < 3) {
-	        if (!_lodash2.default.includes(this.props.selectedSpells, spell)) {
-	          this.props.addSpell(spell);
+	      if (selectedSpells.length < 3) {
+	        if (!_lodash2.default.includes(selectedSpells, spell)) {
+	          _GameStore.GameStore.dispatch({ type: 'ADD_SPELL', spell: spell });
 	          spellButton.classList.toggle('active');
 	        } else {
-	          this.props.removeSpell(spell);
+	          _GameStore.GameStore.dispatch({ type: 'REMOVE_SPELL', spell: spell });
 	          spellButton.classList.toggle('active');
 	        }
 	      } else {
-	        if (_lodash2.default.includes(this.props.selectedSpells, spell)) {
-	          this.props.removeSpell(spell);
+	        if (_lodash2.default.includes(selectedSpells, spell)) {
+	          _GameStore.GameStore.dispatch({ type: 'REMOVE_SPELL', spell: spell });
 	          spellButton.classList.toggle('active');
 	        }
 	      }
@@ -42772,6 +42727,8 @@
 
 	var _redux = __webpack_require__(216);
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	var InitialState = exports.InitialState = {
 	  gameStatus: 'Setup',
 	  socket: null,
@@ -42786,8 +42743,12 @@
 	  switch (action.type) {
 	    case 'UPDATE_STATUS':
 	      return Object.assign({}, state, action.updates);
-	    case 'MODIFY_SPELLS':
-	      return Object.assign({}, state, action.updates);
+	    case 'ADD_SPELL':
+	      return Object.assign({}, state, { spells: [].concat(_toConsumableArray(state.spells), [action.spell]) });
+	    case 'REMOVE_SPELL':
+	      return Object.assign({}, state, { spells: state.spells.filter(function (s) {
+	          return s.id !== action.spell.id;
+	        }) });
 	    default:
 	      return state;
 	  }
