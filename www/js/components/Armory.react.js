@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import SpellSelect from './Armory/SpellSelect.react';
 import { SpecialSpells as Spells } from './Armory/Spells';
-import { GameStore } from '../stores/gameStore';
+import { GameStore } from '../stores/GameStore';
 
 export default class Armory extends React.Component {
   constructor(props) {
@@ -32,17 +32,19 @@ export default class Armory extends React.Component {
   }
 
   beginBattle() {
-    this.props.enterBattle(this.state.selectedSpells)
+    this.props.enterBattle(this.state.selectedSpells);
   }
 
+  // refactor to call ADD_SPELL and REMOVE_SPELL actions
   addSpell(spell) {
-    let selectedSpells = [...this.state.selectedSpells, spell]
-    this.setState({selectedSpells: selectedSpells})
-    //GameStore.dispatch({type: 'ADD_SPell', updates: {spell})
+    let selectedSpells = [...GameStore.getState().spells, spell];
+    GameStore.dispatch({type: 'MODIFY_SPELLS', updates: {spells: selectedSpells}});
+    this.forceUpdate();
   }
   removeSpell(spell) {
-    let selectedSpells = this.state.selectedSpells
+    let selectedSpells = GameStore.getState().spells
     _.remove(selectedSpells, function(s) {return s.id === spell.id} )
-    this.setState({selectedSpells: selectedSpells})
+    GameStore.dispatch({type: 'MODIFY_SPELLS', updates: {spells: selectedSpells}});
+    this.forceUpdate();
   }
 }

@@ -19684,7 +19684,7 @@
 
 	var _socket2 = _interopRequireDefault(_socket);
 
-	var _gameStore = __webpack_require__(225);
+	var _GameStore = __webpack_require__(226);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19694,8 +19694,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	_gameStore.GameStore.subscribe(function () {
-	  console.log(_gameStore.GameStore.getState());
+	_GameStore.GameStore.subscribe(function () {
+	  console.log(_GameStore.GameStore.getState());
 	});
 
 	var WizardDuel = function (_React$Component) {
@@ -19722,16 +19722,16 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      _gameStore.GameStore.subscribe(function () {
+	      _GameStore.GameStore.subscribe(function () {
 	        _this2.forceUpdate();
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var state = _gameStore.GameStore.getState();
+	      var state = _GameStore.GameStore.getState();
 	      var room = undefined;
-	      switch (_gameStore.GameStore.getState().gameStatus) {
+	      switch (_GameStore.GameStore.getState().gameStatus) {
 	        case 'Setup':
 	          room = _react2.default.createElement(_Armory2.default, { enterBattle: this.enterBattle });
 	          break;
@@ -19752,17 +19752,17 @@
 	  }, {
 	    key: 'enterBattle',
 	    value: function enterBattle(spells) {
-	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Battle', spells: spells } });
+	      _GameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Battle', spells: spells } });
 	    }
 	  }, {
 	    key: 'endBattle',
 	    value: function endBattle(winner) {
-	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Game Over', winner: winner } });
+	      _GameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Game Over', winner: winner } });
 	    }
 	  }, {
 	    key: 'reset',
 	    value: function reset() {
-	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: _gameStore.InitialState });
+	      _GameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: _GameStore.InitialState });
 	    }
 	  }]);
 
@@ -19797,7 +19797,7 @@
 
 	var _Spells = __webpack_require__(215);
 
-	var _gameStore = __webpack_require__(225);
+	var _GameStore = __webpack_require__(226);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19864,21 +19864,25 @@
 	    value: function beginBattle() {
 	      this.props.enterBattle(this.state.selectedSpells);
 	    }
+
+	    // refactor to call ADD_SPELL and REMOVE_SPELL actions
+
 	  }, {
 	    key: 'addSpell',
 	    value: function addSpell(spell) {
-	      var selectedSpells = [].concat(_toConsumableArray(this.state.selectedSpells), [spell]);
-	      this.setState({ selectedSpells: selectedSpells });
-	      //GameStore.dispatch({type: 'ADD_SPell', updates: {spell})
+	      var selectedSpells = [].concat(_toConsumableArray(_GameStore.GameStore.getState().spells), [spell]);
+	      _GameStore.GameStore.dispatch({ type: 'MODIFY_SPELLS', updates: { spells: selectedSpells } });
+	      this.forceUpdate();
 	    }
 	  }, {
 	    key: 'removeSpell',
 	    value: function removeSpell(spell) {
-	      var selectedSpells = this.state.selectedSpells;
+	      var selectedSpells = _GameStore.GameStore.getState().spells;
 	      _lodash2.default.remove(selectedSpells, function (s) {
 	        return s.id === spell.id;
 	      });
-	      this.setState({ selectedSpells: selectedSpells });
+	      _GameStore.GameStore.dispatch({ type: 'MODIFY_SPELLS', updates: { spells: selectedSpells } });
+	      this.forceUpdate();
 	    }
 	  }]);
 
@@ -42755,7 +42759,8 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 225 */
+/* 225 */,
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42771,7 +42776,7 @@
 	  gameStatus: 'Setup',
 	  socket: null,
 	  winner: null,
-	  spells: null
+	  spells: []
 	};
 
 	function gameSetup() {
@@ -42781,8 +42786,8 @@
 	  switch (action.type) {
 	    case 'UPDATE_STATUS':
 	      return Object.assign({}, state, action.updates);
-	    // case 'ADD_SPELL':
-	    //   return Object.assign({}, state, action.updates)
+	    case 'MODIFY_SPELLS':
+	      return Object.assign({}, state, action.updates);
 	    default:
 	      return state;
 	  }

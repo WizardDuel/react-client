@@ -3,7 +3,7 @@ import Armory from './Armory.react';
 import BattleRoom from './BattleRoom.react';
 import KillRoom from './KillRoom.react';
 import io from 'socket.io-client';
-import {GameStore as store, InitialState} from '../stores/gameStore';
+import {GameStore as store, InitialState} from '../stores/GameStore';
 
 store.subscribe(() => {
   console.log(store.getState())
