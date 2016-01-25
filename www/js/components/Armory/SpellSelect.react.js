@@ -5,6 +5,8 @@ import SpellList from './SpellList.react';
 export default class SpellSelect extends React.Component {
   constructor(props) {
     super(props)
+    this.addSpell = this.addSpell.bind(this)
+    this.removeSpell = this.removeSpell.bind(this)
   }
 
   render(){

@@ -3,7 +3,7 @@ import Armory from './Armory.react';
 import BattleRoom from './BattleRoom.react';
 import KillRoom from './KillRoom.react';
 import io from 'socket.io-client';
-import {GameStore as store} from '../stores/gameStore';
+import {GameStore as store, InitialState} from '../stores/gameStore';
 
 store.subscribe(() => {
   console.log(store.getState())
@@ -57,7 +57,7 @@ export default class WizardDuel extends React.Component {
   }
 
   reset() {
-    store.dispatch({type: 'UPDATE_STATUS', updates: {gameStatus:'Setup', winner: null}})
+    store.dispatch({type: 'UPDATE_STATUS', updates: InitialState});
   }
 
 }

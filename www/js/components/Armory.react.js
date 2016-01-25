@@ -2,12 +2,15 @@ import React from 'react';
 import _ from 'lodash';
 import SpellSelect from './Armory/SpellSelect.react';
 import { SpecialSpells as Spells } from './Armory/Spells';
+import { GameStore } from '../stores/gameStore';
 
 export default class Armory extends React.Component {
   constructor(props) {
     super(props)
     this.state = { selectedSpells: [] }
     this.beginBattle = this.beginBattle.bind(this);
+    this.addSpell = this.addSpell.bind(this);
+    this.removeSpell = this.removeSpell.bind(this);
    }
 
   render() {
@@ -33,13 +36,13 @@ export default class Armory extends React.Component {
   }
 
   addSpell(spell) {
-    let selectedSpells = this.state.selectedSpells
-    selectedSpells.push(spell)
-    this.replaceState({selectedSpells: selectedSpells})
+    let selectedSpells = [...this.state.selectedSpells, spell]
+    this.setState({selectedSpells: selectedSpells})
+    //GameStore.dispatch({type: 'ADD_SPell', updates: {spell})
   }
   removeSpell(spell) {
     let selectedSpells = this.state.selectedSpells
     _.remove(selectedSpells, function(s) {return s.id === spell.id} )
-    this.replaceState({selectedSpells: selectedSpells})
+    this.setState({selectedSpells: selectedSpells})
   }
 }

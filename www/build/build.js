@@ -19762,7 +19762,7 @@
 	  }, {
 	    key: 'reset',
 	    value: function reset() {
-	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Setup', winner: null } });
+	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: _gameStore.InitialState });
 	    }
 	  }]);
 
@@ -19797,7 +19797,11 @@
 
 	var _Spells = __webpack_require__(215);
 
+	var _gameStore = __webpack_require__(225);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -19815,6 +19819,8 @@
 
 	    _this.state = { selectedSpells: [] };
 	    _this.beginBattle = _this.beginBattle.bind(_this);
+	    _this.addSpell = _this.addSpell.bind(_this);
+	    _this.removeSpell = _this.removeSpell.bind(_this);
 	    return _this;
 	  }
 
@@ -19861,9 +19867,9 @@
 	  }, {
 	    key: 'addSpell',
 	    value: function addSpell(spell) {
-	      var selectedSpells = this.state.selectedSpells;
-	      selectedSpells.push(spell);
-	      this.replaceState({ selectedSpells: selectedSpells });
+	      var selectedSpells = [].concat(_toConsumableArray(this.state.selectedSpells), [spell]);
+	      this.setState({ selectedSpells: selectedSpells });
+	      //GameStore.dispatch({type: 'ADD_SPell', updates: {spell})
 	    }
 	  }, {
 	    key: 'removeSpell',
@@ -19872,7 +19878,7 @@
 	      _lodash2.default.remove(selectedSpells, function (s) {
 	        return s.id === spell.id;
 	      });
-	      this.replaceState({ selectedSpells: selectedSpells });
+	      this.setState({ selectedSpells: selectedSpells });
 	    }
 	  }]);
 
@@ -41993,7 +41999,11 @@
 	  function SpellSelect(props) {
 	    _classCallCheck(this, SpellSelect);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SpellSelect).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SpellSelect).call(this, props));
+
+	    _this.addSpell = _this.addSpell.bind(_this);
+	    _this.removeSpell = _this.removeSpell.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(SpellSelect, [{
@@ -42753,11 +42763,11 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.GameStore = undefined;
+	exports.GameStore = exports.InitialState = undefined;
 
 	var _redux = __webpack_require__(216);
 
-	var initialState = {
+	var InitialState = exports.InitialState = {
 	  gameStatus: 'Setup',
 	  socket: null,
 	  winner: null,
@@ -42765,12 +42775,14 @@
 	};
 
 	function gameSetup() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? InitialState : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
 	    case 'UPDATE_STATUS':
 	      return Object.assign({}, state, action.updates);
+	    // case 'ADD_SPELL':
+	    //   return Object.assign({}, state, action.updates)
 	    default:
 	      return state;
 	  }

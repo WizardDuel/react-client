@@ -1,16 +1,18 @@
 import { createStore } from 'redux';
 
-const initialState = {
+export const InitialState = {
   gameStatus: 'Setup',
   socket: null,
   winner: null,
   spells: null,
 }
 
-function gameSetup(state = initialState, action){
+function gameSetup(state = InitialState, action){
   switch(action.type) {
     case 'UPDATE_STATUS':
-      return Object.assign({}, state, action.updates)
+      return Object.assign({}, state, action.updates);
+    // case 'ADD_SPELL':
+    //   return Object.assign({}, state, action.updates)
     default:
       return state
   }
