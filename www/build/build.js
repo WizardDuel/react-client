@@ -19684,7 +19684,7 @@
 
 	var _socket2 = _interopRequireDefault(_socket);
 
-	var _redux = __webpack_require__(216);
+	var _gameStore = __webpack_require__(225);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19694,28 +19694,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var initialState = {
-	  gameStatus: 'Setup',
-	  socket: null,
-	  winner: null
-	};
-
-	function gameSetup() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'UPDATE_STATUS':
-	      return Object.assign({}, state, action.updates);
-	    default:
-	      return state;
-	  }
-	}
-
-	var store = (0, _redux.createStore)(gameSetup);
-
-	store.subscribe(function () {
-	  console.log(store.getState());
+	_gameStore.GameStore.subscribe(function () {
+	  console.log(_gameStore.GameStore.getState());
 	});
 
 	var WizardDuel = function (_React$Component) {
@@ -19738,11 +19718,20 @@
 	  }
 
 	  _createClass(WizardDuel, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      _gameStore.GameStore.subscribe(function () {
+	        _this2.forceUpdate();
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var state = store.getState();
+	      var state = _gameStore.GameStore.getState();
 	      var room = undefined;
-	      switch (store.getState().gameStatus) {
+	      switch (_gameStore.GameStore.getState().gameStatus) {
 	        case 'Setup':
 	          room = _react2.default.createElement(_Armory2.default, { enterBattle: this.enterBattle });
 	          break;
@@ -19763,25 +19752,17 @@
 	  }, {
 	    key: 'enterBattle',
 	    value: function enterBattle(spells) {
-	      store.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Battle' } });
-	      this.setState({ spells: spells });
+	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Battle', spells: spells } });
 	    }
 	  }, {
 	    key: 'endBattle',
 	    value: function endBattle(winner) {
-	      store.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Game Over', winner: winner } });
-	      this.setState({
-	        gameStatus: 'Game Over',
-	        winner: winner
-	      });
+	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Game Over', winner: winner } });
 	    }
 	  }, {
 	    key: 'reset',
 	    value: function reset() {
-	      store.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Setup', winner: null } });
-	      this.setState({
-	        gameStatus: 'Setup'
-	      });
+	      _gameStore.GameStore.dispatch({ type: 'UPDATE_STATUS', updates: { gameStatus: 'Setup', winner: null } });
 	    }
 	  }]);
 
@@ -42762,6 +42743,40 @@
 	}
 
 	module.exports = exports["default"];
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.GameStore = undefined;
+
+	var _redux = __webpack_require__(216);
+
+	var initialState = {
+	  gameStatus: 'Setup',
+	  socket: null,
+	  winner: null,
+	  spells: null
+	};
+
+	function gameSetup() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'UPDATE_STATUS':
+	      return Object.assign({}, state, action.updates);
+	    default:
+	      return state;
+	  }
+	}
+
+	var GameStore = exports.GameStore = (0, _redux.createStore)(gameSetup);
 
 /***/ }
 /******/ ]);
